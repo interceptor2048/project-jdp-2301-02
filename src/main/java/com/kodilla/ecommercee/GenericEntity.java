@@ -2,21 +2,20 @@ package com.kodilla.ecommercee;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class GenericEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
-    private String value;
+    private String stringValue;
 
     public GenericEntity() {
     }
 
-    public String getValue() {
-        return value;
+    public String getStringValue() {
+        return stringValue;
     }
 
     public Long getId() {
@@ -24,8 +23,8 @@ public class GenericEntity {
         return id;
     }
 
-    public GenericEntity(String value) {
+    public GenericEntity(String stringValue) {
 
-        this.value = value;
+        this.stringValue = stringValue;
     }
 }
