@@ -21,7 +21,7 @@ public class ProductController {
 
         for (long i = 1; i < 6; i++) {
             exampleList.add(new ProductDto(
-                    i, "Product " + i, "Description " + i, new BigDecimal(10*i), 2));
+                    i, "Product " + i, "Description " + i, new BigDecimal(10*i), 2L));
         }
         return ResponseEntity.ok(exampleList);
     }
@@ -29,26 +29,28 @@ public class ProductController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDto> getProduct(@PathVariable final Long id) {
+    public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
         return ResponseEntity.ok(new ProductDto(
-                1L, "Product "+id, "Example description", new BigDecimal(150), 3));
+                1L, "Product "+id, "Example description", new BigDecimal(150), 3L));
     }
 
 
     @PostMapping()
-    public ResponseEntity<ProductDto> addNewProduct(@RequestBody final ProductDto product) {
+    public ResponseEntity<ProductDto> addNewProduct(@RequestBody ProductDto product) {
+        // It will return <Void>, <ProductDto> is only for test with Postman
         return ResponseEntity.ok(product);
     }
 
 
     @PutMapping()
-    public ResponseEntity<ProductDto> updateProduct(@RequestBody final ProductDto product) {
+    public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto product) {
         return ResponseEntity.ok(product);
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable final Long id) {
+    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
+        // It will return Void, String is only for test with Postman
         return new ResponseEntity<>("Product " + id + " deleted", HttpStatus.OK);
     }
 
