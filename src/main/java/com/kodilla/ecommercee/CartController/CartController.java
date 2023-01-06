@@ -17,7 +17,7 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class CartController {
     
-    private static void createCart(Long userId) {
+    private static void createCart() {
         List<CartItemDto> cart = new ArrayList<>();
     
     @GetMapping
@@ -25,6 +25,7 @@ public class CartController {
         CartItemDto cartItem1 = new CartItemDto(1L, "Kurtka", "Kurtka elegancka jesienna", 750, 2);
         CartItemDto cartItem2 = new CartItemDto(2L, "Kurtka", "Kurtka sportowa jesienna", 850, 2);
         CartItemDto cartItem3 = new CartItemDto(3L, "Kurtka", "Kurtka zimowa narciarska", 1200, 5);
+        List<CartItemDto>cart = CartController::createCart()
         cart.add(cartItem1);
         cart.add(cartItem2);
         cart.add(cartItem3);
