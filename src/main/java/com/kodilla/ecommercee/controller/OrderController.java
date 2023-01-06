@@ -21,7 +21,7 @@ public class OrderController {
         return ResponseEntity.ok(sampleList);
     }
 
-    @GetMapping(path = "{orderId}")
+    @GetMapping(path = "/{orderId}")
     public ResponseEntity<OrderDto> getOrder(@PathVariable Long orderId) {
         OrderDto sampleOrderDto = new OrderDto(1L,2L,LocalDate.of(2022,5,10));
         return ResponseEntity.ok(sampleOrderDto);
