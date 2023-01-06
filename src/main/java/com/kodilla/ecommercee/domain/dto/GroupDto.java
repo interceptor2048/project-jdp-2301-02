@@ -1,11 +1,8 @@
-package com.kodilla.ecommercee;
+package com.kodilla.ecommercee.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
 @AllArgsConstructor
 @NoArgsConstructor
