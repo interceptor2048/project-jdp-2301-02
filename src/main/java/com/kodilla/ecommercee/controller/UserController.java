@@ -5,26 +5,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/user")
 @CrossOrigin("*")
 public class UserController {
-
-    @GetMapping
-    public ResponseEntity<List<UserDto>> getUserList() {
-        List<UserDto> userList = new ArrayList<>();
-        userList.add(new UserDto(1L,"user1",1,15234));
-        userList.add(new UserDto(2L,"user2",0,45678));
-
-        return ResponseEntity.ok(userList);
-    }
-    @GetMapping(value = "{userId}")
-    public ResponseEntity<UserDto> getUser(@PathVariable long userId) {
-        return ResponseEntity.ok(new UserDto(userId, "newUser",1,25814));
-    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {
@@ -32,10 +18,16 @@ public class UserController {
         return ResponseEntity.ok(userDto);
     }
 
-    @DeleteMapping(value = "{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable long userId) {
-        return new ResponseEntity<>("User: " + userId + " was deleted", HttpStatus.OK);
+    @PutMapping(value = "block/{userId}")
+    public ResponseEntity<String> blockUser(@PathVariable long userId) {
+
+        return new ResponseEntity<>("Block user: " + userId , HttpStatus.OK);
     }
 
-
+    @PutMapping(value = "genUserKey/{userId}")
+    public ResponseEntity<String>genUserKey(@PathVariable long userId) {
+        Random random = new Random();
+        int userKey = random.nextInt(90000) + 10000;
+        return new ResponseEntity<>("UserKey for: " + userId + " is: " + userKey, HttpStatus.OK);
+    }
 }
