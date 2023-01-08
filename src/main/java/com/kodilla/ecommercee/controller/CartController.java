@@ -13,37 +13,37 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping(value = "/carts")
+@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "/carts")
 public class CartController {
     
-    @PostMapping
-    public ResponseEntity<Void> createCart() {
+    @PostMapping(value = "/createCart/{userId}")
+    public ResponseEntity<Void> createCart(@PathVariable Long userId) {
         List<CartItemDto> cart = new ArrayList<>();
         //post to repository//
         return ResponseEntity.ok().build();
     }
     
-    @GetMapping("/{cartId}")
-    public ResponseEntity<CartDto> getCart(Long cartId) {
+    @GetMapping(value = "/{userId}/{cartId}")
+    public ResponseEntity<CartDto> getCart(@PathVariable Long userId, @PathVariable Long cartId) {
         //get from repository//
         //map to Dto//
-        CartDto currentCard = new CartDto(cartId, new ArrayList<>());
+        CartDto currentCard = new CartDto(userId, cartId, new ArrayList<>());
         return ResponseEntity.ok(currentCard);
     }
 
-    @PostMapping(value = "/addItem")
-    public ResponseEntity<Void> addCartItem(@RequestBody CartItemDto cartItemDto) {
+    @PostMapping(value = "{cartId}")
+    public ResponseEntity<Void> addCartItem(@PathVariable Long cartId, @RequestBody CartItemDto cartItemDto) {
         //post item into Cart//
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping(value = "/{cartItemId}")
-    public ResponseEntity<Void> removeCartItem(@PathVariable Long cartItemId) {
+    @DeleteMapping(value = "/deleteItem/{cartItemId}")
+    public ResponseEntity<Void> removeCartItem(@PathVariable Long cartItemId,@RequestParam Long cartId) {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping(value = "/order")
-    public ResponseEntity<CartItemDto> createOrder() {
+    @PostMapping(value = "/{cartId}/order")
+    public ResponseEntity<CartItemDto> createOrder(@PathVariable Long cartId) {
         //Method will return OrderDto when it is ready//
         //Get current cart from repository//
         //Map current cart to OrderDto//
