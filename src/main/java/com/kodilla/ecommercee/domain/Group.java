@@ -1,10 +1,12 @@
 package com.kodilla.ecommercee.domain;
 
 import lombok.*;
-
 import javax.persistence.*;
 
-@Entity(name = "GROUPS")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Entity(name = "PRODUCT_GROUP")
 public class Group {
 
     @Id
