@@ -3,10 +3,12 @@ package com.kodilla.ecommercee.domain;
 import lombok.*;
 import javax.persistence.*;
 
-@NoArgsConstructor
-@AllArgsConstructor
+import java.util.List;
+@Setter
 @Getter
-@Entity(name = "PRODUCT_GROUP")
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity(name = "PRODUCT_GROUPS")
 public class Group {
 
     @Id
@@ -14,4 +16,11 @@ public class Group {
     @Column(name = "ID", unique = true)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(name = "NAME")
+    private String name;
+
+    @OneToMany(targetEntity = Product.class, mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Product> productList;
 }
+
