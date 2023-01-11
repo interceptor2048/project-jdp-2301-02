@@ -43,7 +43,7 @@ public class CartController {
     }
 
     @PutMapping("/remove{cartId}")
-    public ResponseEntity<String> removeProductToCart(@PathVariable long cartId, @RequestParam long productId) {
+    public ResponseEntity<String> removeProductFromCart(@PathVariable long cartId, @RequestParam long productId) {
         // below should be executed in DbService
         // Cart cart = findById(cartId)
         // cart.getProductList.remove(findProductById(productId);
