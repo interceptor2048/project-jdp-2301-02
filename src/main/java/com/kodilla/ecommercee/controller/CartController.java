@@ -23,8 +23,8 @@ public class CartController {
         return new ResponseEntity<>("New cart was created for userid: " + cartDto.getUserId(), HttpStatus.OK);
     }
     
-    @GetMapping("/products")
-    public ResponseEntity<List<CartItemDto>> getCart(@RequestParam long cartId) {
+    @GetMapping("{cartId}")
+    public ResponseEntity<List<CartItemDto>> getCart(@PathVariable long cartId) {
         List<CartItemDto> cartItemDtos = new ArrayList<>();
         cartItemDtos.add(new CartItemDto(
                 1L,"product1","description1", new BigDecimal(100),4L));
