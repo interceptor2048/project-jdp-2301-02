@@ -10,12 +10,12 @@ import javax.persistence.*;
 @Setter
 @Entity(name = "SESSIONS")
 public class Session {
+
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name ="SESSION_ID", unique = true)
     private long sessionId;
-
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
