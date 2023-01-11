@@ -42,8 +42,8 @@ public class CartController {
         return new ResponseEntity<>("Product: " + productId + " was added to cart: " + cartId, HttpStatus.OK);
     }
 
-    @PutMapping("/remove{cartId}")
-    public ResponseEntity<String> removeProductFromCart(@PathVariable long cartId, @RequestParam long productId) {
+    @PutMapping("/remove")
+    public ResponseEntity<String> removeProductFromCart(@RequestParam long cartId, @RequestParam long productId) {
         // below should be executed in DbService
         // Cart cart = findById(cartId)
         // cart.getProductList.remove(findProductById(productId);
