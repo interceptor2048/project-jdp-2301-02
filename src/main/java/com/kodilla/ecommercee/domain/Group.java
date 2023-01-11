@@ -1,8 +1,8 @@
 package com.kodilla.ecommercee.domain;
 
 import lombok.*;
-
 import javax.persistence.*;
+
 import java.util.List;
 @Setter
 @Getter
@@ -23,3 +23,4 @@ public class Group {
     @OneToMany(targetEntity = Product.class, mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Product> productList;
 }
+
