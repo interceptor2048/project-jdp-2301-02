@@ -21,10 +21,6 @@ public class Session {
     @JoinColumn(name = "USER_ID")
     private User userId;
 
-    @NotNull
-    @Column(name = "USER_KEY")
-    private int userKey;
-
     @Column(name = "SESSION_ENDS")
     private long sessionEnds;
 }

@@ -23,4 +23,10 @@ public class UserController {
         return new ResponseEntity<>("Block user: " + userId , HttpStatus.OK);
     }
 
+    @PutMapping(value = "genUserKey/{userId}")
+    public ResponseEntity<String>genUserKey(@PathVariable long userId) {
+        Random random = new Random();
+        int userKey = random.nextInt(90000) + 10000;
+        return new ResponseEntity<>("UserKey for: " + userId + " is: " + userKey, HttpStatus.OK);
+    }
 }

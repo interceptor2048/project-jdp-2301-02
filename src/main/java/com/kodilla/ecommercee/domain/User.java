@@ -26,6 +26,10 @@ public class User {
     private UserStatus userStatus;
 
     @NotNull
+    @Column(name = "USER_KEY")
+    private int userKey;
+
+    @NotNull
     @Column(name = "PASSWORD")
     private String password;
 
