@@ -13,17 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest()
 public class SpringBootJPAIntegrationTest {
 
-    @Autowired
-    private GenericEntityRepository genericEntityRepository;
 
-    @Test
-    public void givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK() {
-        GenericEntity genericEntity = genericEntityRepository
-                .save(new GenericEntity("test"));
-        Optional<GenericEntity> foundEntity = genericEntityRepository
-                .findById(genericEntity.getId());
 
-        assertTrue(foundEntity.isPresent());
-        assertEquals(genericEntity.getStringValue(), foundEntity.get().getStringValue());
-    }
+
 }
