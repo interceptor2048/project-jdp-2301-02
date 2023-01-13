@@ -17,7 +17,7 @@ public class Session {
     @Column(name ="SESSION_ID", unique = true)
     private long sessionId;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
     private User userId;
 
@@ -27,6 +27,12 @@ public class Session {
 
     @Column(name = "SESSION_ENDS")
     private long sessionEnds;
+
+    public Session(long sessionId, int userKey, long sessionEnds) {
+        this.sessionId = sessionId;
+        this.userKey = userKey;
+        this.sessionEnds = sessionEnds;
+    }
 }
 
 

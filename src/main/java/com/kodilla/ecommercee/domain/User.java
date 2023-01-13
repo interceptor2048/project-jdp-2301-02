@@ -33,7 +33,7 @@ public class User {
             targetEntity = Session.class,
             mappedBy = "sessionId",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     private List<Session> sessionIdList = new ArrayList<>();
 
@@ -45,8 +45,14 @@ public class User {
             targetEntity = Order.class,
             mappedBy = "id",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     private List<Order> orderIdList = new ArrayList<>();
 
+    public User(long userId, String username, UserStatus userStatus, String password) {
+        this.userId = userId;
+        this.username = username;
+        this.userStatus = userStatus;
+        this.password = password;
+    }
 }
