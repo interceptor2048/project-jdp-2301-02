@@ -1,12 +1,10 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.dto.UserAddDto;
-import com.kodilla.ecommercee.domain.dto.UserDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.Random;
 
 @RestController
 @RequestMapping("/user")
