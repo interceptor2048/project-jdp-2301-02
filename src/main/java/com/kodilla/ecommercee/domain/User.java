@@ -10,10 +10,11 @@ import java.util.*;
 @Getter
 @Setter
 @Entity(name = "USERS")
+@Table(name = "USERS")
 public class User {
     @Id
     @NotNull
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "USER_ID",unique = true)
     private long userId;
 
@@ -31,11 +32,11 @@ public class User {
 
     @OneToMany(
             targetEntity = Session.class,
-            mappedBy = "sessionId",
+            mappedBy = "user",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private List<Session> sessionIdList = new ArrayList<>();
+    private Set<Session> sessionList = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "CART_ID")
@@ -43,10 +44,17 @@ public class User {
 
     @OneToMany(
             targetEntity = Order.class,
-            mappedBy = "id",
+            mappedBy = "user",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     private List<Order> orderIdList = new ArrayList<>();
+
+    public User(long userId,String username, UserStatus userStatus, String password) {
+        this.userId = userId;
+        this.username = username;
+        this.userStatus = userStatus;
+        this.password = password;
+    }
 
 }

@@ -9,4 +9,7 @@ public enum UserStatus {
         this.status = status;
     }
 
+    public int getStatus(){
+        return status;
+    }
 }
