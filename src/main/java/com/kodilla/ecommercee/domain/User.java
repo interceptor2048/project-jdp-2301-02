@@ -30,11 +30,12 @@ public class User {
     @Column(name = "PASSWORD")
     private String password;
 
+
     @OneToMany(
             targetEntity = Session.class,
             mappedBy = "user",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     private Set<Session> sessionList = new HashSet<>();
 

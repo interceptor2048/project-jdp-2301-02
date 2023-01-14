@@ -18,7 +18,7 @@ public class Session {
     @Column(name ="SESSION_ID", unique = true)
     private long sessionId;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
     private User user;
 

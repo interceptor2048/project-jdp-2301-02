@@ -27,14 +27,14 @@ public class EcommerceeApplicationTests {
         long userId = user.getUserId();
 
         //When
-        User retrievedUser = userRepository.getReferenceById(userId);
+        User retrievedUser = userRepository.findById(userId).orElseGet(null);
 
         //Then
         assertEquals(1, retrievedUser.getUserId());
     }
 
     @Test
-    @Transactional
+ //   @Transactional
     @DisplayName("Test creating user with other connected records and saving it to database, retrieved user should return the same ID as created one")
     public void testCreateUser() {
         //Given
@@ -42,11 +42,13 @@ public class EcommerceeApplicationTests {
         Session session = new Session(33L, 56755, 50L);
         user.getSessionList().add(session);
         session.setUser(user);
+
+
         userRepository.save(user);
         Long userId = user.getUserId();
 
         //When
-        User retrievedUser = userRepository.getReferenceById(userId);
+        User retrievedUser = userRepository.findById(userId).orElseGet(null);
 
         //Then
         assertEquals(1, retrievedUser.getUserId());
