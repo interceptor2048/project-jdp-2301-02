@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.domain;
 
 import com.kodilla.ecommercee.repository.GroupRepository;
+import com.kodilla.ecommercee.repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class GroupTestSuite {
     @Autowired
     private GroupRepository groupRepository;
+    @Autowired
+    ProductRepository productRepository;
 
 
     private Group shirt;
     private Group shorts;
     private List<Product> allProducts;
+
 
     @BeforeEach
     public void init() {
