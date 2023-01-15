@@ -3,6 +3,7 @@ package com.kodilla.ecommercee.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 @Setter
 @NoArgsConstructor
@@ -12,7 +13,6 @@ import java.util.List;
 public class Cart {
 
     @Id
-    @NonNull
     @Column(name = "ID", unique = true)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -22,5 +22,9 @@ public class Cart {
     public User user;
 
     @ManyToMany (cascade = CascadeType.ALL, mappedBy = "cartList")
-    private List<Product> products;
+    private List<Product> products = new ArrayList<>();
+
+    public Cart( User user) {
+        this.user = user;}
+
 }

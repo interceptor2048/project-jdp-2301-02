@@ -19,7 +19,11 @@ public class Session {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
-    private User userId;
+    private User user;
+
+    @NotNull
+    @Column(name = "USER_KEY")
+    private int userKey;
 
     @NotNull
     @Column(name = "USER_KEY")
@@ -28,5 +32,3 @@ public class Session {
     @Column(name = "SESSION_ENDS")
     private long sessionEnds;
 }
-
-

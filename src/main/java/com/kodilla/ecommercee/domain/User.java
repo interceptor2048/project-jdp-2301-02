@@ -31,7 +31,7 @@ public class User {
 
     @OneToMany(
             targetEntity = Session.class,
-            mappedBy = "sessionId",
+            mappedBy = "user",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
@@ -41,12 +41,19 @@ public class User {
     @JoinColumn(name = "CART_ID")
     private Cart cart;
 
+
     @OneToMany(
             targetEntity = Order.class,
-            mappedBy = "id",
+            mappedBy = "user",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
     private List<Order> orderIdList = new ArrayList<>();
+
+    public User(String username, UserStatus userStatus, String password) {
+        this.username = username;
+        this.userStatus = userStatus;
+        this.password = password;
+    }
 
 }
