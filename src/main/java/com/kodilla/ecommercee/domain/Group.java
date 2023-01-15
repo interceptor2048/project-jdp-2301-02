@@ -1,6 +1,4 @@
 package com.kodilla.ecommercee.domain;
-
-import jdk.internal.icu.text.UnicodeSet;
 import lombok.*;
 import javax.persistence.*;
 
