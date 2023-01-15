@@ -66,7 +66,7 @@ class GroupTestSuite {
         //Given
         shorts = new Group();
         groupRepository.save(shorts);
-        String newName = "updatedGroup";
+        String newName = "group of clothes";
         Group group1 = groupRepository.findById(shorts.getId()).get();
         assertNotNull(group1);
         //When
