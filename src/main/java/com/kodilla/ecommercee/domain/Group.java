@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee.domain;
 
+import jdk.internal.icu.text.UnicodeSet;
 import lombok.*;
 import javax.persistence.*;
 
@@ -22,5 +23,6 @@ public class Group {
 
     @OneToMany(targetEntity = Product.class, mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Product> productList;
+    
 }
 
