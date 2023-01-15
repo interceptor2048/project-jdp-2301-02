@@ -75,7 +75,4 @@ public class Product {
         this.price = price;
         this.group = group;
     }
-
-    public Product(String Spodnie, BigDecimal bigDecimal, boolean b, Group group) {
-    }
 }
