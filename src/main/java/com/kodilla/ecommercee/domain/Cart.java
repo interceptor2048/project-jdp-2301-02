@@ -4,23 +4,24 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Entity(name = "CARTS")
+@Setter
+@Entity
+@Table(name = "CARTS")
 public class Cart {
 
     @Id
     @NonNull
     @Column(name = "ID", unique = true)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
     public User user;
 
-    @ManyToMany (cascade = CascadeType.ALL, mappedBy = "cartList")
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "cartList")
     private List<Product> products;
 }
