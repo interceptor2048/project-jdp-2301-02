@@ -1,13 +1,13 @@
 package com.kodilla.ecommercee.domain;
 
 import com.kodilla.ecommercee.repository.GroupRepository;
-import com.kodilla.ecommercee.repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import javax.transaction.Transactional;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -17,9 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class GroupTestSuite {
     @Autowired
     private GroupRepository groupRepository;
-    @Autowired
-    ProductRepository productRepository;
-
 
     private Group shirt;
     private Group shorts;
@@ -45,9 +42,8 @@ class GroupTestSuite {
         List<Group> allGroups = (List<Group>) groupRepository.findAll();
         assertEquals(3, allGroups.size());
         //cleanup
-        deleteAll();
+        //deleteAll();
     }
-
     @Test
     public void testFindGroupById() {
         //When
@@ -58,7 +54,7 @@ class GroupTestSuite {
         assertNotNull(newGroup);
         assertEquals(shirt.getId(), newGroup.getId());
         //clean up
-        deleteAll();
+        //deleteAll();
     }
 
     @Test
@@ -75,8 +71,9 @@ class GroupTestSuite {
         //Then
         assertEquals(newName, group1.getName());
         //clean up
-        deleteAll();
+        //deleteAll();
     }
+
     @Test
     public void testDeleteGroup() {
         //Given
@@ -92,9 +89,8 @@ class GroupTestSuite {
         //Then
         assertEquals(1, allGroups.size());
         //clean up
-        deleteAll();
+        //deleteAll();
     }
-
     private void deleteAll() {
         groupRepository.deleteAll();
     }
