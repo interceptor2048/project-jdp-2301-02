@@ -3,6 +3,7 @@ package com.kodilla.ecommercee.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,14 +15,17 @@ public class Cart {
 
     @Id
     @NonNull
-    @Column(name = "ID", unique = true)
     @GeneratedValue
+    @Column(name = "ID", unique = true)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
     public User user;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "cartList")
     private List<Product> products;
+
+    public Cart( User user) {
+        this.user = user;}
 }
