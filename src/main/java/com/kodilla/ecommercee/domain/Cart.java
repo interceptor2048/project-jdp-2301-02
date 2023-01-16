@@ -8,16 +8,17 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Entity(name = "CARTS")
+@Entity
+@Table(name = "CARTS")
 public class Cart {
 
     @Id
     @NonNull
+    @GeneratedValue
     @Column(name = "ID", unique = true)
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
     public User user;
 
