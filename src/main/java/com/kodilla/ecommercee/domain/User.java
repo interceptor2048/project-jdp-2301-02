@@ -9,13 +9,14 @@ import java.util.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "USERS")
+@Entity
+@Table(name = "USERS")
 public class User {
     @Id
     @NotNull
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "USER_ID",unique = true)
-    private long userId;
+    @GeneratedValue
+    @Column(name = "ID",unique = true)
+    private long id;
 
     @NotNull
     @Column(name = "USER_NAME")
@@ -37,7 +38,7 @@ public class User {
     )
     private List<Session> sessionIdList = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "CART_ID")
     private Cart cart;
 
@@ -50,10 +51,20 @@ public class User {
     )
     private List<Order> orderIdList = new ArrayList<>();
 
+
     public User(String username, UserStatus userStatus, String password) {
         this.username = username;
         this.userStatus = userStatus;
         this.password = password;
     }
+    public User(long id, String username, UserStatus userStatus, String password) {
+        this.id = id;
+        this.username = username;
+        this.userStatus = userStatus;
+        this.password = password;
+    }
+
+
+
 
 }

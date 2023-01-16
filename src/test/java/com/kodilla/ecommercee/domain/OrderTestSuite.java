@@ -224,7 +224,7 @@ public class OrderTestSuite {
 
         //When
         userRepository.save(user);
-        Long userId = user.getUserId();
+        Long userId = user.getId();
         Long order1Id = order1.getId();
         Long order2Id = order2.getId();
 

@@ -25,7 +25,7 @@ public class Order {
     @Column(name = "DATE")
     private LocalDate orderDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
     private User user;
 
