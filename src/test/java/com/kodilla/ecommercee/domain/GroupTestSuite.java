@@ -41,7 +41,12 @@ class GroupTestSuite {
         //Then
         List<Group> allGroups = (List<Group>) groupRepository.findAll();
         assertEquals(3, allGroups.size());
+<<<<<<< HEAD
 
+=======
+        //cleanup
+        //deleteAll();
+>>>>>>> d670b2285ebdc1ca1173ab0d387082d03fb9de75
     }
     @Test
     public void testFindGroupById() {
@@ -52,7 +57,12 @@ class GroupTestSuite {
         //Then
         assertNotNull(newGroup);
         assertEquals(shirt.getId(), newGroup.getId());
+<<<<<<< HEAD
 
+=======
+        //clean up
+        //deleteAll();
+>>>>>>> d670b2285ebdc1ca1173ab0d387082d03fb9de75
     }
 
     @Test
@@ -68,7 +78,12 @@ class GroupTestSuite {
         group1 = groupRepository.findById(shorts.getId()).get();
         //Then
         assertEquals(newName, group1.getName());
+<<<<<<< HEAD
 
+=======
+        //clean up
+        //deleteAll();
+>>>>>>> d670b2285ebdc1ca1173ab0d387082d03fb9de75
     }
 
     @Test
@@ -85,7 +100,12 @@ class GroupTestSuite {
         allGroups = (List<Group>) groupRepository.findAll();
         //Then
         assertEquals(1, allGroups.size());
+<<<<<<< HEAD
 
+=======
+        //clean up
+        //deleteAll();
+>>>>>>> d670b2285ebdc1ca1173ab0d387082d03fb9de75
     }
     private void deleteAll() {
         groupRepository.deleteAll();
