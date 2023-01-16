@@ -10,13 +10,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-
 @SpringBootTest
 @Transactional
 class GroupTestSuite {
     @Autowired
     private GroupRepository groupRepository;
-
     private Group shirt;
     private Group shorts;
     private List<Product> allProducts;
@@ -50,7 +48,6 @@ class GroupTestSuite {
         //Then
         assertNotNull(newGroup);
         assertEquals(shirt.getId(), newGroup.getId());
-
     }
 
     @Test
@@ -66,7 +63,6 @@ class GroupTestSuite {
         group1 = groupRepository.findById(shorts.getId()).get();
         //Then
         assertEquals(newName, group1.getName());
-
     }
 
     @Test
@@ -83,7 +79,6 @@ class GroupTestSuite {
         allGroups = (List<Group>) groupRepository.findAll();
         //Then
         assertEquals(1, allGroups.size());
-
     }
     private void deleteAll() {
         groupRepository.deleteAll();
