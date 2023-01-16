@@ -26,9 +26,8 @@ public class Session {
     @Column(name = "USER_KEY")
     private int userKey;
 
+
     @Column(name = "SESSION_ENDS")
     private long sessionEnds;
 
 }
-
-

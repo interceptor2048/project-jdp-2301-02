@@ -42,6 +42,7 @@ public class User {
     @JoinColumn(name = "CART_ID")
     private Cart cart;
 
+
     @OneToMany(
             targetEntity = Order.class,
             mappedBy = "user",
@@ -50,10 +51,20 @@ public class User {
     )
     private List<Order> orderIdList = new ArrayList<>();
 
+
+    public User(String username, UserStatus userStatus, String password) {
+        this.username = username;
+        this.userStatus = userStatus;
+        this.password = password;
+    }
     public User(long id, String username, UserStatus userStatus, String password) {
         this.id = id;
         this.username = username;
         this.userStatus = userStatus;
         this.password = password;
     }
+
+
+
+
 }
