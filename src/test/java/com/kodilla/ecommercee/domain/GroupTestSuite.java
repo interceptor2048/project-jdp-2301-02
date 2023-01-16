@@ -52,7 +52,6 @@ class GroupTestSuite {
         //Then
         assertNotNull(newGroup);
         assertEquals(shirt.getId(), newGroup.getId());
-
     }
 
     @Test
@@ -68,7 +67,6 @@ class GroupTestSuite {
         group1 = groupRepository.findById(shorts.getId()).get();
         //Then
         assertEquals(newName, group1.getName());
-
     }
 
     @Test
@@ -85,7 +83,6 @@ class GroupTestSuite {
         allGroups = (List<Group>) groupRepository.findAll();
         //Then
         assertEquals(1, allGroups.size());
-
     }
     private void deleteAll() {
         groupRepository.deleteAll();
