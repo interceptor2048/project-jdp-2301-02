@@ -1,7 +1,7 @@
 package com.kodilla.ecommercee.domain;
 import lombok.*;
 import javax.persistence.*;
-
+import java.util.ArrayList;
 import java.util.List;
 @Setter
 @Getter
@@ -11,7 +11,6 @@ import java.util.List;
 public class Group {
 
     @Id
-    @NonNull
     @Column(name = "ID", unique = true)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -20,7 +19,10 @@ public class Group {
     private String name;
 
     @OneToMany(targetEntity = Product.class, mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Product> productList;
+    private List<Product> productList = new ArrayList<>();
 
+    public Group(String name) {
+        this.name = name;
+    }
 }
 
