@@ -21,6 +21,8 @@ public class Group {
 
     @OneToMany(targetEntity = Product.class, mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Product> productList;
-    
+
+    public Group(Long id, String name) {
+    }
 }
 
