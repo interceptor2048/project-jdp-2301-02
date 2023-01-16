@@ -8,18 +8,19 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "SESSIONS")
+@Entity
+@Table(name = "SESSIONS")
 public class Session {
 
     @Id
     @NotNull
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name ="SESSION_ID", unique = true)
-    private long sessionId;
+    @GeneratedValue
+    @Column(name ="ID", unique = true)
+    private long id;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
-    private User userId;
+    private User user;
 
     @NotNull
     @Column(name = "USER_KEY")
@@ -28,11 +29,6 @@ public class Session {
     @Column(name = "SESSION_ENDS")
     private long sessionEnds;
 
-    public Session(long sessionId, int userKey, long sessionEnds) {
-        this.sessionId = sessionId;
-        this.userKey = userKey;
-        this.sessionEnds = sessionEnds;
-    }
 }
 
 
