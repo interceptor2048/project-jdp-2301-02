@@ -18,7 +18,7 @@ public class Cart {
     @Column(name = "ID", unique = true)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
     public User user;
 

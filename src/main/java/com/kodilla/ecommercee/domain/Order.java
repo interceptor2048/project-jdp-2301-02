@@ -23,7 +23,7 @@ public class Order {
     @Column(name = "DATE")
     private LocalDate orderDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
     private User user;
 

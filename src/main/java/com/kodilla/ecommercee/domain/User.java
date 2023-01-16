@@ -38,7 +38,7 @@ public class User {
     )
     private List<Session> sessionIdList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "CART_ID")
     private Cart cart;
 
