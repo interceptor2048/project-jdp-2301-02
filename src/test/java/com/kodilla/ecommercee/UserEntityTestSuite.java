@@ -54,11 +54,6 @@ public class UserEntityTestSuite {
         //When
         List<User> userList = userRepository.findAll();
         User retrievedUser = userList.get(0);
-//        Optional<User> optionalUser = userRepository.findById(444L);
-//        User userNullable = new User();
-//        userNullable.setId(300L);
-//        User retrievedUser = optionalUser.orElse(userNullable);
-
         //Then
         assertEquals("User 22", retrievedUser.getUsername());
         assertEquals(1, retrievedUser.getSessionIdList().size());
