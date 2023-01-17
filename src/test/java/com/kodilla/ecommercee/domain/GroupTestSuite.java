@@ -14,12 +14,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 class GroupTestSuite {
-
     @Autowired
     private GroupRepository groupRepository;
     @Autowired
     private ProductRepository productRepository;
-
     @Test
     public void testGroupSave() {
         //Given
