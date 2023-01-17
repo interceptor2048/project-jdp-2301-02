@@ -4,13 +4,11 @@ import com.kodilla.ecommercee.repository.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -27,14 +25,12 @@ public class OrderTestSuite {
     @Autowired
     private CartRepository cartRepository;
 
-
-
     private void prepareOrder(){
         User user1 = new User( "nowak997", UserStatus.NOT_LOGGED_IN, "pass");
         Cart cart1 = new Cart( user1);
         user1.setCart(cart1);
         userRepository.save(user1);
-        Group group1 = new Group( "RTV");
+        Group group1 = new Group( "RTV", "Desc");
         Product laptop = new Product( "Dell", "Dell Inspiron 7610", new BigDecimal(5600), group1);
         Product phone = new Product( "Samsung", "Samsung A52", new BigDecimal(990), group1);
         group1.getProductList().add(laptop);
@@ -54,9 +50,6 @@ public class OrderTestSuite {
         orderRepository.save(order1);
     }
 
-
-
-
     @Test
     @Transactional
     public void testCreateFullOrder() {
@@ -66,7 +59,7 @@ public class OrderTestSuite {
         Cart cart1 = new Cart( user1);
         user1.setCart(cart1);
         userRepository.save(user1);
-        Group group1 = new Group( "RTV");
+        Group group1 = new Group( "RTV", "Desc");
         Product laptop = new Product( "Dell", "Dell Inspiron 7610", new BigDecimal(5600), group1);
         Product phone = new Product( "Samsung", "Samsung A52", new BigDecimal(990), group1);
         group1.getProductList().add(laptop);
@@ -105,9 +98,6 @@ public class OrderTestSuite {
         }
     }
 
-
-
-
     @Test
     @Transactional
     public void testGetAllOrdersFromRepo() {
@@ -133,9 +123,6 @@ public class OrderTestSuite {
         }
     }
 
-
-
-
     @Test
     @Transactional
     public void testUpdateOrder() {
@@ -144,7 +131,7 @@ public class OrderTestSuite {
 
         List<Order> orderList = orderRepository.findAll();
         Order orderFromDb = orderList.get(0);
-        Group group2 = new Group( "Books");
+        Group group2 = new Group( "Books", "Desc");
         Product book = new Product( "Road to Java Junior", "Tom Burton, 2019", new BigDecimal(50), group2);
         group2.getProductList().add(book);
         groupRepository.save(group2);
@@ -174,9 +161,6 @@ public class OrderTestSuite {
             System.out.println("Error...");
         }
     }
-
-
-
 
     @Test
     @Transactional
@@ -210,9 +194,6 @@ public class OrderTestSuite {
         }
     }
 
-
-
-
     @Test
     public void testSaveUserWithOrders() {
         //Given
@@ -238,7 +219,4 @@ public class OrderTestSuite {
         orderRepository.deleteAll();
         userRepository.deleteAll();
     }
-
-
-
 }
