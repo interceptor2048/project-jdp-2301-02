@@ -1,4 +1,5 @@
 package com.kodilla.ecommercee.domain;
+import jdk.internal.icu.text.UnicodeSet;
 import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,8 +22,9 @@ public class Group {
     @OneToMany(targetEntity = Product.class, mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Product> productList = new ArrayList<>();
 
-    public Group(String name) {
+    public Group(String name, String desc) {
         this.name = name;
     }
+
 }
 
