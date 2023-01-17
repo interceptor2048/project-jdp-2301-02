@@ -30,7 +30,7 @@ public class OrderTestSuite {
         Cart cart1 = new Cart( user1);
         user1.setCart(cart1);
         userRepository.save(user1);
-        Group group1 = new Group( "RTV");
+        Group group1 = new Group( "RTV", "Desc");
         Product laptop = new Product( "Dell", "Dell Inspiron 7610", new BigDecimal(5600), group1);
         Product phone = new Product( "Samsung", "Samsung A52", new BigDecimal(990), group1);
         group1.getProductList().add(laptop);
@@ -59,7 +59,7 @@ public class OrderTestSuite {
         Cart cart1 = new Cart( user1);
         user1.setCart(cart1);
         userRepository.save(user1);
-        Group group1 = new Group( "RTV");
+        Group group1 = new Group( "RTV", "Desc");
         Product laptop = new Product( "Dell", "Dell Inspiron 7610", new BigDecimal(5600), group1);
         Product phone = new Product( "Samsung", "Samsung A52", new BigDecimal(990), group1);
         group1.getProductList().add(laptop);
@@ -131,7 +131,7 @@ public class OrderTestSuite {
 
         List<Order> orderList = orderRepository.findAll();
         Order orderFromDb = orderList.get(0);
-        Group group2 = new Group( "Books");
+        Group group2 = new Group( "Books", "Desc");
         Product book = new Product( "Road to Java Junior", "Tom Burton, 2019", new BigDecimal(50), group2);
         group2.getProductList().add(book);
         groupRepository.save(group2);
