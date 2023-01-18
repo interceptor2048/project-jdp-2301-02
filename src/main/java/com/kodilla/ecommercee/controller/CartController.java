@@ -59,7 +59,7 @@ public class CartController {
         // Order order = new Order(orderId, userId, orderDate, orderProductList)
         // cart.getProductList.add(findProduct(productId);
         // above is just rought representation of execution.
-        OrderDto orderDto = new OrderDto(cartId,2L, LocalDate.now());
+        OrderDto orderDto = new OrderDto(cartId,2L, LocalDate.now(),new ArrayList<>());
         return ResponseEntity.ok(orderDto);
     }
 }
