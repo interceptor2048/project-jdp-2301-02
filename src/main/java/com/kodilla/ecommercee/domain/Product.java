@@ -48,7 +48,7 @@ public class Product {
     )
     private List<Order> orderList = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.DETACH,  fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH},  fetch = FetchType.EAGER)
     @JoinColumn(name = "GROUP_ID")
     private Group group;
 
@@ -67,4 +67,5 @@ public class Product {
         this.obsolete = obsolete;
         this.group = group;
     }
+
 }
