@@ -1,4 +1,4 @@
 package com.kodilla.ecommercee.exception;
 
-public class RecordNotExistsException extends Exception{
+public class RecordNotExistsException extends Exception {
 }

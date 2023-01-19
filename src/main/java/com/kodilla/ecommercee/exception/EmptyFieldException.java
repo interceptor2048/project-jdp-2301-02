@@ -1,4 +1,5 @@
 package com.kodilla.ecommercee.exception;
 
-public class EmptyFieldException extends Exception{
+
+public class EmptyFieldException extends Exception {
 }

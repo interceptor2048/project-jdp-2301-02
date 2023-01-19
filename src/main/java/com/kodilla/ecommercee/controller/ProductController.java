@@ -32,7 +32,7 @@ public class ProductController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> addNewProduct(@RequestBody ProductSaveDto product)
             throws Exception {
-           productDbService.saveProduct(product);
+        productDbService.saveProduct(product);
         return ResponseEntity.ok().build();
     }
 
@@ -48,4 +48,6 @@ public class ProductController {
         productDbService.deleteProduct(id);
         return ResponseEntity.ok().build();
     }
+
 }
+
