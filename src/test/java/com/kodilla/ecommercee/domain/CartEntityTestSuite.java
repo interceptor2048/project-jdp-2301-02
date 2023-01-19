@@ -7,12 +7,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -29,8 +27,8 @@ public class CartEntityTestSuite {
     @Test
     void createCartAndSaveToDb() {
         //Given
-        Product product1 = new Product(33L,"Product1", "description1", new BigDecimal(344),  new Group());
-        Product product2 = new Product(34L,"Product2", "description2", new BigDecimal(837465),new Group());
+        Product product1 = new Product(33L,"Product1", "description1", new BigDecimal(344),  new Group(), false);
+        Product product2 = new Product(34L,"Product2", "description2", new BigDecimal(837465),new Group(), false);
         List<Product> products = new ArrayList<>();
         products.add(product1);
         products.add(product2);
@@ -52,8 +50,8 @@ public class CartEntityTestSuite {
     @Test
     void getProductFromCart() {
         //Given
-        Product product1 = new Product(33L,"Product1", "description1", new BigDecimal(344),  new Group());
-        Product product2 = new Product(34L,"Product2", "description2", new BigDecimal(837465),new Group());
+        Product product1 = new Product(33L,"Product1", "description1", new BigDecimal(344),  new Group(), false);
+        Product product2 = new Product(34L,"Product2", "description2", new BigDecimal(837465),new Group(), false);
         List<Product> products = new ArrayList<>();
         products.add(product1);
         products.add(product2);
@@ -78,8 +76,8 @@ public class CartEntityTestSuite {
     @Test
     void addProductToCart() {
         //Given
-        Product product1 = new Product(33L,"Product1", "description1", new BigDecimal(344),  new Group());
-        Product product2 = new Product(34L,"Product2", "description2", new BigDecimal(837465),new Group());
+        Product product1 = new Product(33L,"Product1", "description1", new BigDecimal(344),  new Group(), false);
+        Product product2 = new Product(34L,"Product2", "description2", new BigDecimal(837465),new Group(), false);
         List<Product> products = new ArrayList<>();
         products.add(product1);
         User user = new User();
@@ -106,8 +104,8 @@ public class CartEntityTestSuite {
     @Test
     void deleteProductFromCart() {
         //Given
-        Product product1 = new Product(33L,"Product1", "description1", new BigDecimal(344),  new Group());
-        Product product2 = new Product(34L,"Product2", "description2", new BigDecimal(837465),new Group());
+        Product product1 = new Product(33L,"Product1", "description1", new BigDecimal(344),  new Group(), false);
+        Product product2 = new Product(34L,"Product2", "description2", new BigDecimal(837465),new Group(), false);
         List<Product> products = new ArrayList<>();
         products.add(product1);
         products.add(product2);
