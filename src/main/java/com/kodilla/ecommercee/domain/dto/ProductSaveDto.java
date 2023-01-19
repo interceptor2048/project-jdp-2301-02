@@ -7,11 +7,10 @@ import java.math.BigDecimal;
 
 @Getter
 @AllArgsConstructor
-public class ProductDto {
-
-    private Long id;
+public class ProductSaveDto {
     private String name;
     private String description;
     private BigDecimal price;
+    private long qty;
     private String groupId;
 }

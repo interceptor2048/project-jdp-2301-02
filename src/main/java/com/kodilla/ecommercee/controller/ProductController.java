@@ -1,56 +1,51 @@
 package com.kodilla.ecommercee.controller;
 
-import com.kodilla.ecommercee.domain.dto.ProductDto;
-import org.springframework.http.HttpStatus;
+import com.kodilla.ecommercee.domain.dto.*;
+import com.kodilla.ecommercee.exception.*;
+import com.kodilla.ecommercee.mapper.*;
+import com.kodilla.ecommercee.service.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @CrossOrigin("*")
+@RequiredArgsConstructor
 @RequestMapping("/products")
 public class ProductController {
 
+    private final ProductDbService productDbService;
+    private final ProductMapper productMapper;
 
     @GetMapping
     public ResponseEntity<List<ProductDto>> getAllProducts() {
-        List<ProductDto> exampleList = new ArrayList<>();
-
-        for (long i = 1; i < 6; i++) {
-            exampleList.add(new ProductDto(
-                    i, "Product " + i, "Description " + i, new BigDecimal(10*i), 2L));
-        }
-        return ResponseEntity.ok(exampleList);
+        return ResponseEntity.ok(productMapper.mapToProductDtoList(productDbService.getAllProducts()));
     }
-
-
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
-        return ResponseEntity.ok(new ProductDto(
-                1L, "Product "+id, "Example description", new BigDecimal(150), 3L));
+    public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) throws RecordNotExistsException {
+        return ResponseEntity.ok(productMapper.mapToProductDto(productDbService.getProduct(id)));
     }
 
-
-    @PostMapping()
-    public ResponseEntity<ProductDto> addNewProduct(@RequestBody ProductDto product) {
-        // It will return <Void>, <ProductDto> is only for test with Postman
-        return ResponseEntity.ok(product);
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> addNewProduct(@RequestBody ProductSaveDto product)
+            throws Exception {
+        productDbService.saveProduct(product);
+        return ResponseEntity.ok().build();
     }
 
-
-    @PutMapping()
-    public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto product) {
-        return ResponseEntity.ok(product);
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateProduct(@RequestBody ProductUpdateDto productUpdateDto)
+            throws RecordExistsException, EmptyFieldException {
+        productDbService.updateProduct(productUpdateDto);
+        return ResponseEntity.ok().build();
     }
-
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
-        // It will return Void, String is only for test with Postman
-        return new ResponseEntity<>("Product " + id + " deleted", HttpStatus.OK);
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) throws RecordNotExistsException {
+        productDbService.deleteProduct(id);
+        return ResponseEntity.ok().build();
     }
-
 }

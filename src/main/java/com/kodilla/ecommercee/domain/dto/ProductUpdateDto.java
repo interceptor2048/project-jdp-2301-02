@@ -7,11 +7,12 @@ import java.math.BigDecimal;
 
 @Getter
 @AllArgsConstructor
-public class ProductDto {
-
+public class ProductUpdateDto {
     private Long id;
     private String name;
     private String description;
     private BigDecimal price;
+    private long qty;
+    private boolean isObsolete;
     private String groupId;
 }
