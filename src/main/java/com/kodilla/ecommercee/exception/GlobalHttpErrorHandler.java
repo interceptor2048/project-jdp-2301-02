@@ -25,7 +25,7 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException exception) {
-        return new ResponseEntity<>("One or more of required fields is incorrect", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Order with given id doesn't exist.", HttpStatus.BAD_REQUEST);
 
     }
     
