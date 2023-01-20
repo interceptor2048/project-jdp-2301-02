@@ -40,10 +40,8 @@ public class CartDbService {
     public Cart addProductToCart(Long cartId, Long productId) throws CartNotFoundException, ProductNotFoundException {
         Cart cart = cartRepository.findById(cartId).orElseThrow(CartNotFoundException::new);
         Product productToAdd = productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
-        List<Product> products = cart.getProducts();
-        products.add(productToAdd);
-        Cart updatedCart = new Cart(cartId, cart.getUser(), products);
-        return cartRepository.save(updatedCart);
+        cart.getProducts().add(productToAdd);
+        return cartRepository.save(cart);
     }
 
     public Cart removeProductFromCart(Long cartId, Long productId) throws CartNotFoundException, ProductNotFoundException {
