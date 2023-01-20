@@ -28,7 +28,7 @@ public class CartDbService {
     private UserRepository userRepository;
 
     public void createCart(Long UserId) throws UserNotFoundException {
-        User user = userRepository.findById(UserId).get().orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findById(UserId).orElseThrow(UserNotFoundException::new);
         Cart cart = new Cart(user);
         cartRepository.save(cart);
     }
