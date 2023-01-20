@@ -53,8 +53,7 @@ public class CartDbService {
         } else {
             throw new ProductNotFoundException();
         }
-        Cart updatedCart = new Cart(cartId, cart.getUser(), products);
-        return cartRepository.save(updatedCart);
+        return cartRepository.save(cart);
     }
 
     public Order createOrder(Long cartId) throws CartNotFoundWhileCreatingOrderException {
