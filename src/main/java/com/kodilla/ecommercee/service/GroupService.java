@@ -1,9 +1,6 @@
 package com.kodilla.ecommercee.service;
-
-
 import com.kodilla.ecommercee.domain.Group;
-
-import com.kodilla.ecommercee.exception.GroupException;
+import com.kodilla.ecommercee.exception.GroupNotFoundException;
 import com.kodilla.ecommercee.repository.GroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,8 +18,8 @@ public class GroupService {
         return (List<Group>) groupRepository.findAll();
     }
 
-    public Group getGroupById(Long id) throws GroupException {
-        return groupRepository.findById(id).orElseThrow(() -> new GroupException(
+    public Group getGroupById(Long id) throws GroupNotFoundException {
+        return groupRepository.findById(id).orElseThrow(() -> new GroupNotFoundException(
                 "Group update not found id: " + id));
     }
 
@@ -33,9 +30,9 @@ public class GroupService {
     public void deleteGroup(Long id) {
         groupRepository.deleteById(id);
     }
-    public Group updateGroup(final Group group, final Long id) throws GroupException {
+    public Group updateGroup(final Group group, final Long id) throws GroupNotFoundException {
         Optional<Group> groupEntity = groupRepository.findById(id);
-        Group groupForUpdate = groupEntity.orElseThrow(() -> new GroupException(
+        Group groupForUpdate = groupEntity.orElseThrow(() -> new GroupNotFoundException(
                 "Group update not found id: " + id));
         groupForUpdate.setName(group.getName());
         return groupRepository.save(groupForUpdate);

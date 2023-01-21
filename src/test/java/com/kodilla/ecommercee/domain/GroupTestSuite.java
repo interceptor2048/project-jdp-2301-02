@@ -79,7 +79,7 @@ class GroupTestSuite {
     public void testGroupDeleteProducts() {
         //Given
         Group group = new Group();
-        Product product1 = new Product("Shimano", "Rods", new BigDecimal("920.00"), group);
+        Product product1 = new Product("Shimano", "Rods", new BigDecimal("940.00"), group);
         Product product2 = new Product("Shimano", "Reals", new BigDecimal("1490.00"), group);
         group.getProductList().add(product1);
         group.getProductList().add(product2);

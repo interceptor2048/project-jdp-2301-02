@@ -38,4 +38,10 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleOrderWithGivenUserNotFoundException(OrderWithGivenUserNotFoundException exception) {
     return new ResponseEntity<>("Order with given userId doesn't exist", HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(GroupNotFoundException.class)
+    public ResponseEntity<Object> handleGroupNotFoundException(GroupNotFoundException exception) {
+        return new ResponseEntity<>("Group given id doesn't exist", HttpStatus.BAD_REQUEST);
+    }
 }
+
