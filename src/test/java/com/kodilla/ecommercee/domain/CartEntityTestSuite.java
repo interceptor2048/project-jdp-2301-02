@@ -32,7 +32,7 @@ public class CartEntityTestSuite {
         List<Product> products = new ArrayList<>();
         products.add(product1);
         products.add(product2);
-        User user = new User();
+        User user = new User("John", UserStatus.LOGGED_IN, "Kendrick");
         userRepository.save(user);
         Cart cart = new Cart(1L, user, products);
         cartRepository.save(cart);

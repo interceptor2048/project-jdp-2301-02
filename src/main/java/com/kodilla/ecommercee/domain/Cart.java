@@ -25,7 +25,11 @@ public class Cart {
     @ManyToMany (cascade = CascadeType.ALL, mappedBy = "cartList")
     private List<Product> products = new ArrayList<>();
 
-    public Cart( User user) {
+    public Cart(User user) {
         this.user = user;}
 
+    public Cart(User user, List<Product> products) {
+        this.user = user;
+        this.products = products;
+    }
 }
