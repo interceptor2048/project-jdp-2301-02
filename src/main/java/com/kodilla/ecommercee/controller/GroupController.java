@@ -1,15 +1,17 @@
 package com.kodilla.ecommercee.controller;
 
-import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.domain.dto.GroupDto;
-import com.kodilla.ecommercee.repository.GroupRepository;
+import com.kodilla.ecommercee.exception.GroupNotFoundException;
+import com.kodilla.ecommercee.domain.Group;
+import com.kodilla.ecommercee.mapper.GroupMapper;
+
+import com.kodilla.ecommercee.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -17,28 +19,37 @@ import java.util.List;
 @CrossOrigin("*")
 public class GroupController {
 
-    private final GroupRepository groupRepository;
+    private final GroupService groupService;
+    private final GroupMapper groupMapper;
 
     @GetMapping
-    public ResponseEntity<List<GroupDto>> getGroupList() {
-        return ResponseEntity.ok(new ArrayList<>());
-    }
-
-    @PostMapping
-    public ResponseEntity<Void> addGroup() {
-        Group group = new Group();
-        group.setName("Shoes");
-        groupRepository.save(group);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<List<GroupDto>> getAllGroups() {
+        List<Group> groups = groupService.getAllGroups();
+        return ResponseEntity.ok(groupMapper.mapToGroupDtoList(groups));
     }
 
     @GetMapping(value = "{groupId}")
-    public ResponseEntity<GroupDto> getGroupById(@PathVariable Long groupId) {
-        return ResponseEntity.ok(new GroupDto(4L, "Dodatki"));
+    public ResponseEntity<GroupDto> getGroup(@PathVariable Long groupId) throws GroupNotFoundException {
+        return ResponseEntity.ok(groupMapper.mapToGroupDto(groupService.getGroupById(groupId)));
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GroupDto> updateGroup(@RequestBody GroupDto groupDto) {
-        return ResponseEntity.ok(new GroupDto(4L, "Najnowsze dodatki"));
+    @PutMapping(value = "{groupId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GroupDto> updateGroup(@PathVariable Long groupId, @RequestBody GroupDto groupDto) throws GroupNotFoundException {
+        Group group = groupMapper.mapToGroup(groupDto);
+        Group updatedGroup = groupService.updateGroup(group, groupId);
+        return ResponseEntity.ok(groupMapper.mapToGroupDto(updatedGroup));
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GroupDto> addNewGroup(@RequestBody GroupDto groupDto) {
+        Group group = groupMapper.mapToGroup(groupDto);
+        groupService.saveGroup(group);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping(value = "{groupId}")
+    public ResponseEntity<Void> deleteGroup(@PathVariable Long groupId) {
+        groupService.deleteGroup(groupId);
+        return ResponseEntity.ok().build();
     }
 }
