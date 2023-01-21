@@ -41,7 +41,7 @@ public class GroupController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GroupDto> addNewGroup(@RequestBody GroupDto groupDto) {
+    public ResponseEntity<Void> addNewGroup(@RequestBody GroupDto groupDto) {
         Group group = groupMapper.mapToGroup(groupDto);
         groupService.saveGroup(group);
         return ResponseEntity.ok().build();
