@@ -1,11 +1,9 @@
 package com.kodilla.ecommercee.controller;
 
+
 import com.kodilla.ecommercee.domain.Cart;
-import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.domain.Order;
-import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.domain.dto.CartDto;
-import com.kodilla.ecommercee.domain.dto.CartItemDto;
 import com.kodilla.ecommercee.domain.dto.OrderDto;
 import com.kodilla.ecommercee.exception.CartNotFoundException;
 import com.kodilla.ecommercee.exception.CartNotFoundWhileCreatingOrderException;
@@ -15,14 +13,10 @@ import com.kodilla.ecommercee.mapper.CartMapper;
 import com.kodilla.ecommercee.mapper.OrderMapper;
 import com.kodilla.ecommercee.service.CartDbService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @RestController
 @CrossOrigin("*")

@@ -1,14 +1,18 @@
 package com.kodilla.ecommercee.domain;
 
+import com.kodilla.ecommercee.exception.CartNotFoundWhileCreatingOrderException;
+import com.kodilla.ecommercee.exception.OrderNotFoundException;
 import com.kodilla.ecommercee.repository.*;
+import com.kodilla.ecommercee.service.OrderService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -24,6 +28,10 @@ public class OrderTestSuite {
     private GroupRepository groupRepository;
     @Autowired
     private CartRepository cartRepository;
+    @Autowired
+    private  OrderProductRepository orderProductRepository;
+    @Autowired
+    private OrderService orderService;
 
     private void prepareOrder(){
         User user1 = new User( "nowak997", UserStatus.NOT_LOGGED_IN, "pass");
@@ -43,10 +51,18 @@ public class OrderTestSuite {
         cartRepository.save(cart1);
         List<Product> productsFromSavedCart = cartRepository.findById(user1.getCart().getId()).get().getProducts();
         List<Product> productToOrder = new ArrayList<>(productsFromSavedCart);
-        Order order1 = new Order( LocalDate.of(2023, 1, 10), user1, productToOrder);
+        Order order1 = new Order( LocalDate.of(2023, 1, 10), user1);
+
+        Map<Product, Long> counts = productToOrder.stream().
+                collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+        Set<OrderProduct> orderProductSet = new HashSet<>();
+        for (Map.Entry<Product, Long> entry : counts.entrySet()){
+            OrderProduct op=new OrderProduct(order1, entry.getKey(), entry.getKey().getPrice(), entry.getValue());
+            orderProductSet.add(op);
+            orderProductRepository.save(op);
+        }
+        order1.setOrderProductSet(orderProductSet);
         user1.getOrderIdList().add(order1);
-        laptop.getOrderList().add(order1);
-        phone.getOrderList().add(order1);
         orderRepository.save(order1);
     }
 
@@ -72,10 +88,11 @@ public class OrderTestSuite {
         cartRepository.save(cart1);
         List<Product> productsFromSavedCart = cartRepository.findById(user1.getCart().getId()).get().getProducts();
         List<Product> productToOrder = new ArrayList<>(productsFromSavedCart);
-        Order order1 = new Order( LocalDate.of(2023, 1, 10), user1, productToOrder);
+        Order order1 = new Order( LocalDate.of(2023, 1, 10), user1);
         user1.getOrderIdList().add(order1);
-        laptop.getOrderList().add(order1);
-        phone.getOrderList().add(order1);
+        Set<OrderProduct>productOrder = orderService.fromListToSet(productToOrder, order1);
+        orderProductRepository.saveAll(productOrder);
+        order1.setOrderProductSet(productOrder);
 
         //When
         orderRepository.save(order1);
@@ -136,7 +153,10 @@ public class OrderTestSuite {
         group2.getProductList().add(book);
         groupRepository.save(group2);
         orderFromDb.getUser().getCart().getProducts().add(book);
-        orderFromDb.getProductList().add(book);
+        Set<OrderProduct> set = orderService.fromListToSet(orderFromDb.getUser().getCart().getProducts(), orderFromDb);
+        orderProductRepository.saveAll(set);
+        orderFromDb.setOrderProductSet(set);
+        orderRepository.save(orderFromDb);
         book.getCartList().add(orderFromDb.getUser().getCart());
         cartRepository.save(orderFromDb.getUser().getCart());
 
@@ -144,10 +164,12 @@ public class OrderTestSuite {
         orderRepository.save(orderFromDb);
         List<Order> updatedOrderList = orderRepository.findAll();
         Order updatedOrder = updatedOrderList.get(0);
+        OrderProduct op1 = updatedOrder.getOrderProductSet().stream().filter(i->i.getProduct().equals(book)).findFirst().get();
 
         //Then
         assertEquals(3, updatedOrder.getUser().getCart().getProducts().size());
-        assertEquals(3, updatedOrder.getUser().getOrderIdList().get(0).getProductList().size());
+        assertEquals(3, updatedOrder.getOrderProductSet().size());
+        assertEquals(1, op1.getQty());
         assertEquals("nowak997", updatedOrderList.get(0).getUser().getUsername());
 
         //CleanUp
@@ -174,7 +196,6 @@ public class OrderTestSuite {
         //When
         orderFromBase.getUser().getOrderIdList().remove(orderFromBase);
         userRepository.save(orderFromBase.getUser());
-        orderFromBase.getProductList().forEach(product -> product.getOrderList().remove(orderFromBase));
         orderRepository.deleteById(orderFromBase.getId());
         List<Order> ordersFromRepositoryAfterDeletingOne = orderRepository.findAll();
 
@@ -194,29 +215,55 @@ public class OrderTestSuite {
         }
     }
 
-    @Test
-    public void testSaveUserWithOrders() {
-        //Given
-        Order order1 = new Order();
-        Order order2 = new Order();
-        User user = new User();
-        user.getOrderIdList().add(order1);
-        user.getOrderIdList().add(order2);
 
-        //When
+
+    @Transactional
+    @Test
+    void testCreateFromOrderService() throws CartNotFoundWhileCreatingOrderException {
+
+        //Given
+        User user = new User("Adam009", UserStatus.NOT_LOGGED_IN, "abc");
         userRepository.save(user);
-        Long userId = user.getId();
-        Long order1Id = order1.getId();
-        Long order2Id = order2.getId();
+        Cart cart = new Cart(user);
+        cart.getProducts().add(new Product("ded", "ec", new BigDecimal(100), new Group("ede", "inne")));
+        cartRepository.save(cart);
+
+        // When
+        orderService.createOrder(cart.getId());
+        List<Order> o = orderService.getALlOrders();
 
         //Then
-        assertNotEquals(null, userId);
-        assertNotEquals(null, order1Id);
-        assertNotEquals(null, order2Id);
-        assertEquals(2, orderRepository.count());
-
-        // CleanUp
-        orderRepository.deleteAll();
-        userRepository.deleteAll();
+        assertEquals(1, o.size());
     }
+
+
+
+    @Transactional
+    @Test
+    void testRemoveFromOrderService() throws CartNotFoundWhileCreatingOrderException, OrderNotFoundException {
+
+        //Given
+        User user = new User("Adam009", UserStatus.NOT_LOGGED_IN, "abc");
+        userRepository.save(user);
+        Cart cart = new Cart(user);
+        cart.getProducts().add(new Product("Product1", "esc", new BigDecimal(100), new Group("Group1", "Other")));
+        cartRepository.save(cart);
+        orderService.createOrder(cart.getId());
+        List<Order> o = orderService.getALlOrders();
+        Order order1 = orderService.getALlOrders().get(0);
+
+        // When
+        orderService.deleteOrder(order1.getId());
+        List<Order> oAfterDelete = orderService.getALlOrders();
+
+        //Then
+        assertEquals(1, o.size());
+        assertEquals(0, oAfterDelete.size());
+    }
+
+
+
+
+
+
 }
