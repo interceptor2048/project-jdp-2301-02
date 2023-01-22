@@ -1,70 +1,64 @@
 package com.kodilla.ecommercee.controller;
 
-import com.kodilla.ecommercee.domain.OrderProduct;
-import com.kodilla.ecommercee.domain.Product;
+
+import com.kodilla.ecommercee.domain.Cart;
+import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.dto.CartDto;
-import com.kodilla.ecommercee.domain.dto.CartItemDto;
 import com.kodilla.ecommercee.domain.dto.OrderDto;
-import org.springframework.http.HttpStatus;
+import com.kodilla.ecommercee.exception.CartNotFoundException;
+import com.kodilla.ecommercee.exception.CartNotFoundWhileCreatingOrderException;
+import com.kodilla.ecommercee.exception.ProductNotFoundException;
+import com.kodilla.ecommercee.exception.UserNotFoundException;
+import com.kodilla.ecommercee.mapper.CartMapper;
+import com.kodilla.ecommercee.mapper.OrderMapper;
+import com.kodilla.ecommercee.service.CartDbService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+
 
 @RestController
 @CrossOrigin("*")
+@RequiredArgsConstructor
 @RequestMapping("/carts")
 public class CartController {
+
+    private final CartDbService cartDbService;
+    private final CartMapper cartMapper;
+    private final OrderMapper orderMapper;
     
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> createCart(@RequestBody CartDto cartDto) {
-        return new ResponseEntity<>("New cart was created for userid: " + cartDto.getUserId(), HttpStatus.OK);
+    public ResponseEntity<Void> createCart(@RequestBody CartDto cartDto) throws UserNotFoundException {
+        cartDbService.createCart(cartDto.getUserId());
+        return ResponseEntity.ok().build();
     }
-    
+
     @GetMapping("{cartId}")
-    public ResponseEntity<List<CartItemDto>> getCart(@PathVariable long cartId) {
-        List<CartItemDto> cartItemDtos = new ArrayList<>();
-        cartItemDtos.add(new CartItemDto(
-                1L,"product1","description1", new BigDecimal(100),4L));
-        cartItemDtos.add(new CartItemDto(
-                2L,"product2","description2", new BigDecimal(200),3L));
-        return ResponseEntity.ok(cartItemDtos);
+    public ResponseEntity<CartDto> getCart(@PathVariable long cartId) throws CartNotFoundException {
+        Cart cart = cartDbService.getCart(cartId);
+        CartDto cartDto = cartMapper.mapToCartDto(cart);
+        return ResponseEntity.ok(cartDto);
     }
 
     @PutMapping("/add/{cartId}")
-    public ResponseEntity<String> addProductToCart(@PathVariable long cartId, @RequestParam long productId) {
-        // below should be executed in DbService
-        // Cart cart = findById(cartId)
-        // cart.getProductList.add(findProductById(productId);
-        // above is just rought representation of execution.
-        return new ResponseEntity<>("Product: " + productId + " was added to cart: " + cartId, HttpStatus.OK);
+    public ResponseEntity<CartDto> addProductToCart(@PathVariable long cartId, @RequestParam long productId) throws CartNotFoundException, ProductNotFoundException {
+        Cart updatedCart = cartDbService.addProductToCart(cartId, productId);
+        CartDto cartDto = cartMapper.mapToCartDto(updatedCart);
+        return ResponseEntity.ok(cartDto);
     }
 
     @PutMapping("/remove")
-    public ResponseEntity<String> removeProductFromCart(@RequestParam long cartId, @RequestParam long productId) {
-        // below should be executed in DbService
-        // Cart cart = findById(cartId)
-        // cart.getProductList.remove(findProductById(productId);
-        // above is just rought representation of execution.
-        return new ResponseEntity<>("Product: " + productId + " was removed from cart: " + cartId, HttpStatus.OK);
-    }
+    public ResponseEntity<CartDto> removeProductFromCart(@RequestParam long cartId, @RequestParam long productId) throws CartNotFoundException, ProductNotFoundException {
+        Cart updatedCart = cartDbService.removeProductFromCart(cartId, productId);
+        CartDto cartDto = cartMapper.mapToCartDto(updatedCart);
+        return ResponseEntity.ok(cartDto);
+     }
 
     @PostMapping("/createOrder")
-    public ResponseEntity<OrderDto> createOrder(@RequestParam long cartId) {
-        // below should be executed in DbService.
-        // Cart cart = findCartById(cartId)
-        // List<Product> orderProductList = new ArrayList<>();
-        // orderProductList.addAll(cart.getCartProductList())
-        // Order order = new Order(orderId, userId, orderDate, orderProductList)
-        // cart.getProductList.add(findProduct(productId);
-        // above is just rought representation of execution.
-       OrderDto orderDto = new OrderDto(1L, 12L, LocalDate.now(),  new ArrayList<>());
-        // OrderDto orderDto = new OrderDto(cartId,2L, LocalDate.now(), Set< OrderProduct > opSet);
+    public ResponseEntity<OrderDto> createOrder(@RequestParam long cartId) throws CartNotFoundWhileCreatingOrderException {
+        Order newOrder = cartDbService.createOrder(cartId);
+        OrderDto orderDto = orderMapper.mapToOrderDto(newOrder);
         return ResponseEntity.ok(orderDto);
     }
 }
-
