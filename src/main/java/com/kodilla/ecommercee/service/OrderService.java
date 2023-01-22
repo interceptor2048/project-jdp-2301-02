@@ -1,25 +1,28 @@
 package com.kodilla.ecommercee.service;
 
-import com.kodilla.ecommercee.domain.Cart;
-import com.kodilla.ecommercee.domain.Order;
+import com.kodilla.ecommercee.domain.*;
 import com.kodilla.ecommercee.domain.dto.OrderDto;
 import com.kodilla.ecommercee.exception.CartNotFoundWhileCreatingOrderException;
 import com.kodilla.ecommercee.exception.OrderNotFoundException;
 import com.kodilla.ecommercee.exception.OrderWithGivenUserNotFoundException;
 import com.kodilla.ecommercee.repository.CartRepository;
+import com.kodilla.ecommercee.repository.OrderProductRepository;
 import com.kodilla.ecommercee.repository.OrderRepository;
+import com.kodilla.ecommercee.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
     private final CartRepository cartRepository;
+    private final OrderProductRepository orderProductRepository;
+
 
 
     public List<Order> getALlOrders() {
@@ -33,7 +36,11 @@ public class OrderService {
     public void createOrder(Long cartId) throws CartNotFoundWhileCreatingOrderException {
         if (cartRepository.findById(cartId).isPresent()) {
             Cart cart = cartRepository.findById(cartId).get();
-            orderRepository.save(new Order(LocalDate.now(), cart.getUser(), cart.getProducts()));
+            Order order = new Order(LocalDate.now(), cart.getUser());
+            Set<OrderProduct> orderProductSet = fromListToSet(cart.getProducts(), order);
+            order.setOrderProductSet(orderProductSet);
+            orderProductRepository.saveAll(orderProductSet);
+            orderRepository.save(order);
         } else {
             throw new CartNotFoundWhileCreatingOrderException();
         }
@@ -45,7 +52,9 @@ public class OrderService {
             Order order = optionalOrder.get();
             if (order.getUser().getId() == orderDto.getUserId()){
                 order.setOrderDate(orderDto.getOrderDate());
-                order.setProductList(orderDto.getProductList());
+                Set<OrderProduct>set = fromListToSet(orderDto.getProductList(), order);
+                order.setOrderProductSet(set);
+                orderProductRepository.saveAll(set);
                 return orderRepository.save(order);
             } else {
                 throw new OrderWithGivenUserNotFoundException();
@@ -62,5 +71,28 @@ public class OrderService {
             throw new OrderNotFoundException();
         }
     }
+
+
+
+    public Set<OrderProduct> fromListToSet(List<Product> list, Order order){
+        Set<OrderProduct> set = new HashSet<>();
+        Map<Product, Long> counts =
+                list.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+        for (Map.Entry<Product, Long> entry : counts.entrySet()){
+            set.add(new OrderProduct(order, entry.getKey(), entry.getKey().getPrice(), entry.getValue()));
+        }
+        return set;
+    }
+
+    public List<Product> fromSetToList(Set<OrderProduct> set){
+        List<Product> list = new ArrayList<>();
+        for(OrderProduct op : set){
+            for(Long l = 1L; l<=op.getQty(); l++){
+                list.add(op.getProduct());
+            }
+        }
+        return list;
+    }
+
 
 }

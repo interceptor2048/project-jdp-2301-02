@@ -1,22 +1,17 @@
 package com.kodilla.ecommercee.service;
 
-import com.kodilla.ecommercee.domain.Cart;
-import com.kodilla.ecommercee.domain.Order;
-import com.kodilla.ecommercee.domain.Product;
-import com.kodilla.ecommercee.domain.User;
+import com.kodilla.ecommercee.domain.*;
 import com.kodilla.ecommercee.exception.CartNotFoundException;
 import com.kodilla.ecommercee.exception.CartNotFoundWhileCreatingOrderException;
 import com.kodilla.ecommercee.exception.ProductNotFoundException;
 import com.kodilla.ecommercee.exception.UserNotFoundException;
-import com.kodilla.ecommercee.repository.CartRepository;
-import com.kodilla.ecommercee.repository.OrderRepository;
-import com.kodilla.ecommercee.repository.ProductRepository;
-import com.kodilla.ecommercee.repository.UserRepository;
+import com.kodilla.ecommercee.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +21,8 @@ public class CartDbService {
     private ProductRepository productRepository;
     private OrderRepository orderRepository;
     private UserRepository userRepository;
+    private OrderProductRepository orderProductRepository;
+    private OrderService orderService;
 
     public void createCart(Long UserId) throws UserNotFoundException {
         User user = userRepository.findById(UserId).orElseThrow(UserNotFoundException::new);
@@ -60,7 +57,10 @@ public class CartDbService {
         Cart cart = cartRepository.findById(cartId).orElseThrow(CartNotFoundWhileCreatingOrderException::new);
         User user = cart.getUser();
         List<Product> products = cart.getProducts();
-        Order newOrder = new Order(LocalDate.now(), user, products);
+        Order newOrder = new Order(LocalDate.now(), user);
+        Set<OrderProduct> set = orderService.fromListToSet(products, newOrder);
+        newOrder.setOrderProductSet(set);
+        orderProductRepository.saveAll(set);
         return orderRepository.save(newOrder);
     }
 }
