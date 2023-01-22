@@ -5,8 +5,8 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @NoArgsConstructor
@@ -29,12 +29,24 @@ public class Order {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @ManyToMany (cascade = CascadeType.ALL, mappedBy = "orderList")
-    private List<Product> productList = new ArrayList<>();
 
-    public Order(LocalDate orderDate, User user, List<Product> productList) {
+    @OneToMany(
+            mappedBy = "order",
+            cascade = CascadeType.ALL
+    )
+    private Set<OrderProduct> orderProductSet = new HashSet<>();
+
+
+    public Order(LocalDate orderDate, User user) {
         this.orderDate = orderDate;
         this.user = user;
-        this.productList = productList;
     }
+
+    public Order(Long id, LocalDate orderDate, User user) {
+        this.id = id;
+        this.orderDate = orderDate;
+        this.user = user;
+    }
+
+
 }

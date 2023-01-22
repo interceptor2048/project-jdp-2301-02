@@ -1,5 +1,7 @@
 package com.kodilla.ecommercee.controller;
 
+import com.kodilla.ecommercee.domain.OrderProduct;
+import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.domain.dto.CartDto;
 import com.kodilla.ecommercee.domain.dto.CartItemDto;
 import com.kodilla.ecommercee.domain.dto.OrderDto;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -59,7 +62,8 @@ public class CartController {
         // Order order = new Order(orderId, userId, orderDate, orderProductList)
         // cart.getProductList.add(findProduct(productId);
         // above is just rought representation of execution.
-        OrderDto orderDto = new OrderDto(cartId,2L, LocalDate.now(),new ArrayList<>());
+       OrderDto orderDto = new OrderDto(1L, 12L, LocalDate.now(),  new ArrayList<>());
+        // OrderDto orderDto = new OrderDto(cartId,2L, LocalDate.now(), Set< OrderProduct > opSet);
         return ResponseEntity.ok(orderDto);
     }
 }

@@ -4,7 +4,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,13 +42,14 @@ public class Product {
     )
     private List<Cart> cartList = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "ORDER_PRODUCTS",
-            joinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")},
-            inverseJoinColumns = {@JoinColumn(name = "ORDER_ID", referencedColumnName = "ID")}
+
+    @OneToMany(
+            mappedBy = "product",
+            cascade = CascadeType.ALL
     )
-    private List<Order> orderList = new ArrayList<>();
+    private Set<OrderProduct> orderProductSet = new HashSet<>();
+
+
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH},  fetch = FetchType.EAGER)
     @JoinColumn(name = "GROUP_ID")
