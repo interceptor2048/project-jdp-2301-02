@@ -17,17 +17,19 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class CartDbService {
 
-    private CartRepository cartRepository;
-    private ProductRepository productRepository;
-    private OrderRepository orderRepository;
-    private UserRepository userRepository;
-    private OrderProductRepository orderProductRepository;
-    private OrderService orderService;
+    private final CartRepository cartRepository;
+    private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
+    private final OrderProductRepository orderProductRepository;
+    private final OrderService orderService;
 
     public void createCart(Long UserId) throws UserNotFoundException {
         User user = userRepository.findById(UserId).orElseThrow(UserNotFoundException::new);
         Cart cart = new Cart(user);
+        user.setCart(cart);
         cartRepository.save(cart);
+        userRepository.save(user);
     }
 
     public Cart getCart(Long cartId) throws CartNotFoundException {
@@ -38,6 +40,8 @@ public class CartDbService {
         Cart cart = cartRepository.findById(cartId).orElseThrow(CartNotFoundException::new);
         Product productToAdd = productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
         cart.getProducts().add(productToAdd);
+        productToAdd.getCartList().add(cart);
+        productRepository.save(productToAdd);
         return cartRepository.save(cart);
     }
 

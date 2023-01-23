@@ -26,6 +26,12 @@ public class ProductDbService {
                 Product product = productMapper.mapToProduct(productSaveDto);
                 product.setObsolete(false);
                 setGroupToProduct(product, productSaveDto.getGroupId());
+
+                Group g = groupRepository.findById(Long.parseLong(productSaveDto.getGroupId())).orElse(null);
+                assert g != null;
+                g.getProductList().add(product);
+                groupRepository.save(g);
+                productRepository.save(product);
             } else {
                 throw new RecordExistsException();
             }
@@ -49,6 +55,7 @@ public class ProductDbService {
                 product.setQty((productUpdateDto.getQty()));
                 product.setObsolete(productUpdateDto.isObsolete());
                 setGroupToProduct(product, productUpdateDto.getGroupId());
+                productRepository.save(product);
             } else {
                 throw new RecordExistsException();
             }
@@ -70,6 +77,7 @@ public class ProductDbService {
             try {
                 Group group = groupRepository.findById(Long.parseLong(groupId)).orElseThrow(RecordNotExistsException::new);
                 product.setGroup(group);
+                groupRepository.save(group);
             } catch (RecordNotExistsException e) {
             }
         } else {
