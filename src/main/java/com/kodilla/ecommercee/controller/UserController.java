@@ -14,9 +14,9 @@ public class UserController {
     private UserDbService userDbService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserAddDto> addUser(@RequestBody UserAddDto userAddDto) throws Exception {
+    public ResponseEntity<Void> addUser(@RequestBody UserAddDto userAddDto) throws Exception {
         userDbService.saveUser(userAddDto);
-        return ResponseEntity.ok(userAddDto);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping(value = "block/{userId}")
