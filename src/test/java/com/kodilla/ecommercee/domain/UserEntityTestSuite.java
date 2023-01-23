@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class UserEntityTestSuite {
         //Given
         User user = new User(444L, "User 22", UserStatus.LOGGED_IN, "223k");
 
-        Session session = new Session(33L, user, 56755, 50L);
+        Session session = new Session(user, 33223,  LocalDateTime.now(), LocalDateTime.now().plusHours(1));
         user.getSessionIdList().add(session);
 
         Cart cart = new Cart(22L, user, new ArrayList<>());
@@ -66,7 +67,7 @@ public class UserEntityTestSuite {
         //Given
         User user = new User(444L, "User 55", UserStatus.LOGGED_IN, "223k");
 
-        Session session = new Session(33L, user, 56755, 50L);
+        Session session = new Session(user, 56755,  LocalDateTime.now(), LocalDateTime.now().plusHours(1));
         user.getSessionIdList().add(session);
 
         Cart cart = new Cart(22L, user, new ArrayList<>());
@@ -94,7 +95,8 @@ public class UserEntityTestSuite {
         //Given
         User user = new User(444L, "User 77", UserStatus.LOGGED_IN, "223k");
 
-        Session session = new Session(33L, user, 56755, 50L);
+        Session session = new Session(user, 33223,  LocalDateTime.now(), LocalDateTime.now().plusHours(1));
+
         user.getSessionIdList().add(session);
 
         Cart cart = new Cart(22L, user, new ArrayList<>());
@@ -125,7 +127,7 @@ public class UserEntityTestSuite {
         //Given
         User user = new User(444L, "User 77", UserStatus.LOGGED_IN, "223k");
 
-        Session session = new Session(33L, user, 56755, 50L);
+        Session session = new Session(user, 33223,  LocalDateTime.now(), LocalDateTime.now().plusHours(1));
         user.getSessionIdList().add(session);
 
         Cart cart = new Cart(22L, user, new ArrayList<>());
