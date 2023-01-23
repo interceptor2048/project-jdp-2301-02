@@ -22,7 +22,7 @@ public class SessionService {
     public SessionDto updateUserRandomKey(final Long id, UserAddDto userAddDto) throws Exception {
         Random random = new Random();
         User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
-        if (user.getUsername().equals(userAddDto.getUsername())||user.getPassword().equals(userAddDto.getPassword())){
+        if (user.getUsername().equals(userAddDto.getUsername())&&user.getPassword().equals(userAddDto.getPassword())){
             Session session = new Session();
             session.setUser(user);
             int userKey = random.nextInt(99999999);
