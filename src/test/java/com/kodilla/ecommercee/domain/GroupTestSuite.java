@@ -35,8 +35,8 @@ class GroupTestSuite {
     public void testGroupProducts() {
         //Given
         Group group = new Group();
-        Product product1 = new Product("Product1", "Description1", new BigDecimal("40.00"), group);
-        Product product2 = new Product("Product2", "Description2", new BigDecimal("90.00"), group);
+        Product product1 = new Product("Shimano", "Rods", new BigDecimal("940.00"), group);
+        Product product2 = new Product("Shimano", "Reals", new BigDecimal("1490.00"), group);
         group.getProductList().add(product1);
         group.getProductList().add(product2);
         //When
@@ -51,12 +51,12 @@ class GroupTestSuite {
     public void testUpdateGroup() {
         //Given
         Group group = new Group();
-        Product product1 = new Product("Product1", "Description1", new BigDecimal("40.00"), group);
+        Product product1 = new Product("Shimano", "Rods", new BigDecimal("940.00"), group);
         group.getProductList().add(product1);
         groupRepository.save(group);
         Long groupId = group.getId();
         //When
-        Product product2 = new Product("Product2", "Description2", new BigDecimal("90.00"), group);
+        Product product2 = new Product("Shimano", "Reals", new BigDecimal("1490.00"), group);
         group.getProductList().add(product2);
         //Then
         assertEquals(2, group.getProductList().size());
@@ -79,8 +79,8 @@ class GroupTestSuite {
     public void testGroupDeleteProducts() {
         //Given
         Group group = new Group();
-        Product product1 = new Product("Product1", "Description1", new BigDecimal("20.00"), group);
-        Product product2 = new Product("Product2", "Description2", new BigDecimal("50.00"), group);
+        Product product1 = new Product("Shimano", "Rods", new BigDecimal("940.00"), group);
+        Product product2 = new Product("Shimano", "Reals", new BigDecimal("1490.00"), group);
         group.getProductList().add(product1);
         group.getProductList().add(product2);
         //When

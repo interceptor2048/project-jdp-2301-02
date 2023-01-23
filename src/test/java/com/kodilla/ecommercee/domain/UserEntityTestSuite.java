@@ -1,6 +1,5 @@
 package com.kodilla.ecommercee.domain;
 
-import com.kodilla.ecommercee.domain.*;
 import com.kodilla.ecommercee.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +10,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -47,7 +47,7 @@ public class UserEntityTestSuite {
         Cart cart = new Cart(22L, user, new ArrayList<>());
         user.setCart(cart);
 
-        Order order = new Order(55L, LocalDate.now(), user, new ArrayList<>());
+        Order order = new Order(55L, LocalDate.now(), user, new HashSet<>());
         user.getOrderIdList().add(order);
 
         userRepository.save(user);
@@ -73,7 +73,7 @@ public class UserEntityTestSuite {
         Cart cart = new Cart(22L, user, new ArrayList<>());
         user.setCart(cart);
 
-        Order order = new Order(55L, LocalDate.of(2022, 2, 20), user, new ArrayList<>());
+        Order order = new Order(55L, LocalDate.of(2022, 2, 20), user, new HashSet<>());
         user.getOrderIdList().add(order);
 
         userRepository.save(user);
@@ -102,7 +102,7 @@ public class UserEntityTestSuite {
         Cart cart = new Cart(22L, user, new ArrayList<>());
         user.setCart(cart);
 
-        Order order = new Order(55L, LocalDate.now(), user, new ArrayList<>());
+        Order order = new Order(55L, LocalDate.now(), user, new HashSet<>());
         user.getOrderIdList().add(order);
 
         userRepository.save(user);
@@ -133,7 +133,7 @@ public class UserEntityTestSuite {
         Cart cart = new Cart(22L, user, new ArrayList<>());
         user.setCart(cart);
 
-        Order order = new Order(55L, LocalDate.now(), user, new ArrayList<>());
+        Order order = new Order(55L, LocalDate.now(), user, new HashSet<>());
         user.getOrderIdList().add(order);
 
         userRepository.save(user);

@@ -1,6 +1,6 @@
 package com.kodilla.ecommercee.exception;
 
-import com.kodilla.ecommercee.domain.User;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -40,6 +40,10 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     return new ResponseEntity<>("Order with given userId doesn't exist", HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(GroupNotFoundException.class)
+    public ResponseEntity<Object> handleGroupNotFoundException(GroupNotFoundException exception) {
+        return new ResponseEntity<>("Group given id doesn't exist", HttpStatus.BAD_REQUEST);
+    }
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException exception) {
         return new ResponseEntity<>("User with given id hasn't been found.", HttpStatus.BAD_REQUEST);
@@ -55,3 +59,4 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>("Product with given id hasn't been found.", HttpStatus.BAD_REQUEST);
     }
 }
+

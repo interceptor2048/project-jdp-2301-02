@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee.domain;
 import lombok.*;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +24,10 @@ public class Group {
     private List<Product> productList = new ArrayList<>();
 
     public Group(String name, String desc) {
-        this.name = name;
+        this.name = String.valueOf(name);
     }
 
+    public Group(Long id, String name) {
+    }
 }
 
