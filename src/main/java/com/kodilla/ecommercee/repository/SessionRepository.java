@@ -9,4 +9,6 @@ import javax.transaction.Transactional;
 @Transactional
 @Repository
 public interface SessionRepository extends CrudRepository<Session, Long> {
+    @Override
+    Session save(Session session);
 }
