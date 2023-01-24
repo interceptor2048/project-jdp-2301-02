@@ -8,17 +8,19 @@ import com.kodilla.ecommercee.domain.dto.OrderDto;
 
 import com.kodilla.ecommercee.exception.UserNotFoundException;
 import com.kodilla.ecommercee.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class OrderMapper {
 
-    @Autowired
-    UserRepository userRepository;
+
+    private final UserRepository userRepository;
+    private final ProductMapper productMapper;
 
     public OrderDto mapToOrderDto(Order order) {
         List<Product> listOfProducts = new ArrayList<>();
@@ -31,14 +33,15 @@ public class OrderMapper {
                 order.getId(),
                 order.getUser().getId(),
                 order.getOrderDate(),
-                listOfProducts
+                productMapper.mapToProductDtoList(listOfProducts)
         );
     }
 
 
     public Order mapToOrder(OrderDto orderDto) throws UserNotFoundException {
+        List<Product> list = productMapper.mapToProductList(orderDto.getProductList());
         Map<Product, Long> counts =
-                orderDto.getProductList().stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+                list.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
         User user = userRepository.findById(orderDto.getUserId()).orElseThrow(UserNotFoundException::new);
         Set<OrderProduct> orderProductSet = new HashSet<>();
         Order order = new Order(orderDto.getId(), orderDto.getOrderDate(), user);

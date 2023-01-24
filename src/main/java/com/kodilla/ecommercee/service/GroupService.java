@@ -15,7 +15,7 @@ public class GroupService {
     private final GroupRepository groupRepository;
 
     public List<Group> getAllGroups() {
-        return (List<Group>) groupRepository.findAll();
+        return  groupRepository.findAll();
     }
 
     public Group getGroupById(Long id) throws GroupNotFoundException {

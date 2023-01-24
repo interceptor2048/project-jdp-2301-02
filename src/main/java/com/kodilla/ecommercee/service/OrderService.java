@@ -5,6 +5,7 @@ import com.kodilla.ecommercee.domain.dto.OrderDto;
 import com.kodilla.ecommercee.exception.CartNotFoundWhileCreatingOrderException;
 import com.kodilla.ecommercee.exception.OrderNotFoundException;
 import com.kodilla.ecommercee.exception.OrderWithGivenUserNotFoundException;
+import com.kodilla.ecommercee.mapper.ProductMapper;
 import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.OrderProductRepository;
 import com.kodilla.ecommercee.repository.OrderRepository;
@@ -22,6 +23,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final CartRepository cartRepository;
     private final OrderProductRepository orderProductRepository;
+    private final ProductMapper productMapper;
 
 
 
@@ -37,8 +39,10 @@ public class OrderService {
         if (cartRepository.findById(cartId).isPresent()) {
             Cart cart = cartRepository.findById(cartId).get();
             Order order = new Order(LocalDate.now(), cart.getUser());
+            orderRepository.save(order);
             Set<OrderProduct> orderProductSet = fromListToSet(cart.getProducts(), order);
             order.setOrderProductSet(orderProductSet);
+
             orderProductRepository.saveAll(orderProductSet);
             orderRepository.save(order);
         } else {
@@ -52,7 +56,8 @@ public class OrderService {
             Order order = optionalOrder.get();
             if (order.getUser().getId() == orderDto.getUserId()){
                 order.setOrderDate(orderDto.getOrderDate());
-                Set<OrderProduct>set = fromListToSet(orderDto.getProductList(), order);
+                List<Product>list = productMapper.mapToProductList(orderDto.getProductList());
+                Set<OrderProduct>set = fromListToSet(list, order);
                 order.setOrderProductSet(set);
                 orderProductRepository.saveAll(set);
                 return orderRepository.save(order);

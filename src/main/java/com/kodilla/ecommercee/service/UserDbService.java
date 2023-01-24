@@ -13,13 +13,15 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserDbService {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private UserMapper userMapper;
+    private final  UserMapper userMapper;
 
     public void saveUser(UserAddDto userAddDto) throws EmptyFieldException {
         if (userAddDto.getUsername() != null && userAddDto.getPassword() != null) {
-            User user = userMapper.mapToUser(userAddDto);
+           // User user = userMapper.mapToUser(userAddDto);
+            userRepository.save(userMapper.mapToUser(userAddDto));
+
         } else {
             throw new EmptyFieldException();
         }
@@ -28,6 +30,7 @@ public class UserDbService {
     public void setBlocked(Long userId) throws UserNotFoundException {
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         user.setUserStatus(UserStatus.BLOCKED);
+        userRepository.save(user);
 
     }
 }

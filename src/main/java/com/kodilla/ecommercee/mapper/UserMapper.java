@@ -8,6 +8,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserMapper {
     public User mapToUser(UserAddDto userAddDto) {
-        return new User(userAddDto.getUsername(), UserStatus.NOT_LOGGED_IN, userAddDto.getPassword());
+        User user = new User();
+        user.setUsername(userAddDto.getUsername());
+        user.setUserStatus(UserStatus.NOT_LOGGED_IN);
+        user.setPassword(userAddDto.getPassword());
+        return user;
+
     }
 }
